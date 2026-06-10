@@ -1,3 +1,4 @@
+
 # ⚡ InterviewAce – AI Interview Preparation Chatbot
 
 An AI-powered interview preparation and evaluation system built with **Flask**, **Groq API (LLaMA 3.3 70B)**, and a modern dark-theme UI.
@@ -70,3 +71,23 @@ Open your browser at: `http://localhost:5000`
 ---
 
 ## Project Structure
+
+```
+interview-ace/
+├── app.py               ← Flask backend (routes, Groq API, session management)
+├── requirements.txt     ← Python dependencies
+├── templates/
+│   └── index.html       ← Main chat UI
+├── static/
+│   ├── style.css        ← Dark navy + teal design system
+│   └── script.js        ← Chat logic, voice input, API calls, UI interactions
+└── README.md
+```
+
+---
+
+## Resume Description
+
+ Developed **InterviewAce**, an AI-powered interview preparation and evaluation system using Python Flask, Groq API (LLaMA 3.3 70B), and JavaScript. The system conducts technical (Python, ML, SQL, DSA, Java) and HR interview simulations, evaluates candidate responses with structured scoring across Technical Knowledge, Communication, and Confidence dimensions, supports voice input via Web Speech API, maintains multi-turn conversation history via server-side Flask sessions, and provides personalised improvement feedback. Deployed on Render with a gunicorn WSGI server.
+
+
