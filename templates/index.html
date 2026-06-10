@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InterviewAce – AI Interview Coach</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ───────── SIDEBAR ───────── -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-header">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">InterviewAce</span>
+      </div>
+      <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">✕</button>
+    </div>
+
+    <p class="sidebar-tagline">Your AI-powered interview coach</p>
+
+    <div class="mode-section">
+      <p class="mode-label">TECHNICAL TRACKS</p>
+      <button class="mode-btn" onclick="sendQuickMessage('Start Python Interview')">🐍 Python</button>
+      <button class="mode-btn" onclick="sendQuickMessage('Start Machine Learning Interview')">🤖 Machine Learning</button>
+      <button class="mode-btn" onclick="sendQuickMessage('Start SQL Interview')">🗄️ SQL</button>
+      <button class="mode-btn" onclick="sendQuickMessage('Start Data Structures Interview')">🌲 Data Structures</button>
+      <button class="mode-btn" onclick="sendQuickMessage('Start Java Interview')">☕ Java</button>
+    </div>
+
+    <div class="mode-section">
+      <p class="mode-label">HR & SOFT SKILLS</p>
+      <button class="mode-btn" onclick="sendQuickMessage('Start HR Interview')">🤝 HR Round</button>
+      <button class="mode-btn" onclick="sendQuickMessage('Help me answer: Tell me about yourself')">👤 About Yourself</button>
+      <button class="mode-btn" onclick="sendQuickMessage('Help me answer: What are your strengths and weaknesses?')">💪 Strengths & Weaknesses</button>
+    </div>
+
+    <div class="mode-section">
+      <p class="mode-label">PRACTICE MODES</p>
+      <button class="mode-btn mock-btn" onclick="sendQuickMessage('Conduct a full Mock Interview with 5 questions. Ask one question at a time.')">🎯 Full Mock Interview</button>
+      <button class="mode-btn" onclick="sendQuickMessage('Give me feedback on my overall interview performance so far')">📊 Get Score Dashboard</button>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="reset-btn" onclick="resetChat()">🔄 New Session</button>
+    </div>
+
+  </aside>
+
+  <!-- ───────── MAIN AREA ───────── -->
+  <div class="main-wrapper" id="mainWrapper">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+      <div class="topbar-title">
+        <span class="topbar-logo">⚡</span>
+        <span>InterviewAce</span>
+      </div>
+      <div class="topbar-status" id="statusIndicator">
+        <span class="status-dot"></span>
+        <span>Ready</span>
+      </div>
+    </header>
+
+    <!-- Chat Container -->
+    <main class="chat-area" id="chatArea">
+
+      <!-- Welcome Screen -->
+      <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-icon">⚡</div>
+        <h1 class="welcome-title">InterviewAce</h1>
+        <p class="welcome-sub">AI-powered interview preparation and evaluation</p>
+
+        <!-- Voice feature callout -->
+        <div class="voice-callout">
+          <span class="vc-icon">🎙️</span>
+          <span>You can <strong>speak your answers</strong> — click the mic button anytime instead of typing</span>
+        </div>
+
+        <div class="quick-starts">
+          <p class="quick-label">Quick Start</p>
+          <div class="quick-grid">
+            <button class="quick-card" onclick="sendQuickMessage('Start Machine Learning Interview')">
+              <span class="qc-icon">🤖</span>
+              <span class="qc-title">ML Interview</span>
+              <span class="qc-desc">Test your ML knowledge</span>
+            </button>
+            <button class="quick-card" onclick="sendQuickMessage('Conduct a full Mock Interview with 5 questions. Ask one question at a time.')">
+              <span class="qc-icon">🎯</span>
+              <span class="qc-title">Mock Interview</span>
+              <span class="qc-desc">Full simulation, scored</span>
+            </button>
+            <button class="quick-card" onclick="sendQuickMessage('Start Python Interview')">
+              <span class="qc-icon">🐍</span>
+              <span class="qc-title">Python Round</span>
+              <span class="qc-desc">Code & concepts</span>
+            </button>
+            <button class="quick-card" onclick="sendQuickMessage('Start HR Interview')">
+              <span class="qc-icon">🤝</span>
+              <span class="qc-title">HR Round</span>
+              <span class="qc-desc">Soft skills practice</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Messages -->
+      <div class="chat-messages" id="chatMessages"></div>
+
+    </main>
+
+    <!-- Input Area -->
+    <footer class="input-area">
+
+      <!-- Voice status banner — shown when mic is active or error occurs -->
+      <div class="mic-status" id="micStatus" style="display:none;"></div>
+
+      <div class="input-wrapper">
+        <!-- Mic button (left side) -->
+        <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Speak your answer" aria-label="Voice input">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+        </button>
+
+        <textarea
+          id="userInput"
+          placeholder="Type your answer or click 🎙️ to speak…"
+          rows="1"
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+
+        <!-- Send button (right side) -->
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+
+      <p class="input-hint">
+        <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line ·
+        <span class="hint-voice">🎙️ click mic to speak</span>
+      </p>
+    </footer>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
