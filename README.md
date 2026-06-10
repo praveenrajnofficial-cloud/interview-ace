@@ -1,6 +1,6 @@
 # ⚡ InterviewAce – AI Interview Preparation Chatbot
 
-An AI-powered interview preparation and evaluation system built with **Flask**, **Gemini API**, and a modern dark-theme UI.
+An AI-powered interview preparation and evaluation system built with **Flask**, **Groq API (LLaMA 3.3 70B)**, and a modern dark-theme UI.
 
 ---
 
@@ -11,6 +11,7 @@ An AI-powered interview preparation and evaluation system built with **Flask**, 
 - 🎯 **Full Mock Interview** – 5 questions, one at a time, scored at the end
 - 📊 **Evaluation Scoring** – Technical Knowledge / Communication / Confidence / Overall (out of 10)
 - 💬 **Conversation Memory** – Full history maintained per session via Flask sessions
+- 🎙️ **Voice Input** – Speak your answers using built-in speech-to-text
 - 🔄 **Session Reset** – Start fresh anytime
 
 ---
@@ -21,7 +22,7 @@ An AI-powered interview preparation and evaluation system built with **Flask**, 
 |------------|-----------------------|
 | Frontend   | HTML, CSS, JavaScript |
 | Backend    | Python Flask          |
-| AI Model   | Google Gemini 1.5 Flash |
+| AI Model   | Groq API – LLaMA 3.3 70B |
 | Deployment | Render.com            |
 
 ---
@@ -31,24 +32,20 @@ An AI-powered interview preparation and evaluation system built with **Flask**, 
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/interview-ace.git
+git clone https://github.com/praveenrajofficial-cloud/interview-ace.git
 cd interview-ace
 pip install -r requirements.txt
 ```
 
-### 2. Add Your Gemini API Key
+### 2. Add Your Groq API Key
 
-Open `app.py` and replace:
-```python
-GEMINI_API_KEY = "YOUR_API_KEY_HERE"
-```
+Get a free Groq API key at: https://console.groq.com/keys
 
-Or set it as an environment variable:
+Set it as an environment variable:
+
 ```bash
-export GEMINI_API_KEY="your_key_here"
+export GROQ_API_KEY="your_key_here"
 ```
-
-Get a free Gemini API key at: https://aistudio.google.com/
 
 ### 3. Run Locally
 
@@ -67,27 +64,9 @@ Open your browser at: `http://localhost:5000`
 3. Connect your GitHub repo
 4. Set Build Command: `pip install -r requirements.txt`
 5. Set Start Command: `gunicorn app:app`
-6. Add Environment Variable: `GEMINI_API_KEY = your_key`
+6. Add Environment Variable: `GROQ_API_KEY = your_key`
 7. Deploy!
 
 ---
 
 ## Project Structure
-
-```
-interview-ace/
-├── app.py               ← Flask backend (routes, Gemini API, session management)
-├── requirements.txt     ← Python dependencies
-├── templates/
-│   └── index.html       ← Main chat UI
-├── static/
-│   ├── style.css        ← Dark navy + teal design system
-│   └── script.js        ← Chat logic, API calls, UI interactions
-└── README.md
-```
-
----
-
-## Resume Description
-
-> Developed **InterviewAce**, an AI-powered interview preparation and evaluation system using Flask, JavaScript, and Google Gemini API. The system conducts technical (Python, ML, SQL, DSA) and HR interview simulations, evaluates candidate responses with structured scoring across Technical Knowledge, Communication, and Confidence, maintains multi-turn conversation history via server-side sessions, and provides personalised improvement feedback. Deployed on Render with RESTful API architecture.
