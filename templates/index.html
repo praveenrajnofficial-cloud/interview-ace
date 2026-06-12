@@ -6,6 +6,7 @@
   <title>InterviewAce – AI Interview Coach</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 </head>
 <body>
 
@@ -21,6 +22,27 @@
     </div>
 
     <p class="sidebar-tagline">Your AI-powered interview coach</p>
+
+    <!-- DIFFICULTY SELECTOR -->
+    <div class="mode-section">
+      <p class="mode-label">DIFFICULTY LEVEL</p>
+      <div class="difficulty-row">
+        <button class="diff-btn" data-difficulty="Beginner" onclick="setDifficulty('Beginner')">🟢 Beginner</button>
+        <button class="diff-btn active" data-difficulty="Intermediate" onclick="setDifficulty('Intermediate')">🟡 Intermediate</button>
+        <button class="diff-btn" data-difficulty="Expert" onclick="setDifficulty('Expert')">🔴 Expert</button>
+      </div>
+    </div>
+
+    <!-- RESUME UPLOAD -->
+    <div class="mode-section">
+      <p class="mode-label">RESUME (OPTIONAL)</p>
+      <label class="resume-upload-btn" for="resumeFile">
+        <i class="upload-icon">📄</i>
+        <span id="resumeLabel">Upload resume (PDF/TXT)</span>
+      </label>
+      <input type="file" id="resumeFile" accept=".pdf,.txt" style="display:none" onchange="uploadResume(event)" />
+      <button class="clear-resume-btn" id="clearResumeBtn" style="display:none" onclick="clearResume()">✕ Remove resume</button>
+    </div>
 
     <div class="mode-section">
       <p class="mode-label">TECHNICAL TRACKS</p>
@@ -41,7 +63,18 @@
     <div class="mode-section">
       <p class="mode-label">PRACTICE MODES</p>
       <button class="mode-btn mock-btn" onclick="sendQuickMessage('Conduct a full Mock Interview with 5 questions. Ask one question at a time.')">🎯 Full Mock Interview</button>
-      <button class="mode-btn" onclick="sendQuickMessage('Give me feedback on my overall interview performance so far')">📊 Get Score Dashboard</button>
+      <button class="mode-btn" onclick="sendQuickMessage('If I have uploaded a resume, ask me to explain or defend a specific choice from one of my projects.')">📄 Resume-Based Question</button>
+      <button class="mode-btn" onclick="openDashboard()">📊 Score Dashboard</button>
+    </div>
+
+    <!-- TEXT TO SPEECH TOGGLE -->
+    <div class="mode-section">
+      <p class="mode-label">VOICE OUTPUT</p>
+      <label class="tts-toggle">
+        <input type="checkbox" id="ttsToggle" onchange="toggleTTS(this.checked)">
+        <span class="tts-slider"></span>
+        <span class="tts-label">🔊 Read AI replies aloud</span>
+      </label>
     </div>
 
     <div class="sidebar-footer">
@@ -62,7 +95,7 @@
       </div>
       <div class="topbar-status" id="statusIndicator">
         <span class="status-dot"></span>
-        <span>Ready</span>
+        <span id="difficultyBadge">Intermediate</span>
       </div>
     </header>
 
@@ -116,11 +149,11 @@
     <!-- Input Area -->
     <footer class="input-area">
 
-      <!-- Voice status banner — shown when mic is active or error occurs -->
+      <!-- Voice status banner -->
       <div class="mic-status" id="micStatus" style="display:none;"></div>
 
       <div class="input-wrapper">
-        <!-- Mic button (left side) -->
+        <!-- Mic button -->
         <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Speak your answer" aria-label="Voice input">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
@@ -138,7 +171,6 @@
           oninput="autoResize(this)"
         ></textarea>
 
-        <!-- Send button (right side) -->
         <button class="send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send message">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -153,6 +185,19 @@
       </p>
     </footer>
 
+  </div>
+
+  <!-- ───────── SCORE DASHBOARD MODAL ───────── -->
+  <div class="modal-overlay" id="dashboardOverlay" onclick="closeDashboardOnOverlay(event)">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>📊 Score Dashboard</h2>
+        <button class="modal-close" onclick="closeDashboard()">✕</button>
+      </div>
+      <div class="modal-body" id="dashboardBody">
+        <!-- Filled dynamically -->
+      </div>
+    </div>
   </div>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
